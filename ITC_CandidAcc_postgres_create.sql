@@ -103,14 +103,14 @@ CREATE TABLE "public.Districts" (
 
 
 
-CREATE TABLE "public.Interview" (
+CREATE TABLE "public.Interviews" (
 	"id" serial NOT NULL,
 	"date" DATETIME NOT NULL,
 	"candidate_id" integer NOT NULL,
 	"interviewer_id" integer NOT NULL,
 	"result_id" integer NOT NULL,
 	"comment" VARCHAR(255),
-	CONSTRAINT "Interview_pk" PRIMARY KEY ("id")
+	CONSTRAINT "Interviews_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
 );
@@ -133,8 +133,8 @@ CREATE TABLE "public.Mentors" (
 
 CREATE TABLE "public.Statuses" (
 	"id" serial NOT NULL,
-	"name" VARCHAR(255) NOT NULL,
 	"group_id" integer NOT NULL,
+	"name" VARCHAR(255) NOT NULL,
 	CONSTRAINT "Statuses_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -237,6 +237,17 @@ CREATE TABLE "public.Days_of_week" (
 
 
 
+CREATE TABLE "public.Mentors_to_Programs" (
+	"id" serial NOT NULL,
+	"mentor_id" integer NOT NULL,
+	"program_id" integer NOT NULL,
+	CONSTRAINT "Mentors_to_Programs_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
 ALTER TABLE "Candidates" ADD CONSTRAINT "Candidates_fk0" FOREIGN KEY ("school_id") REFERENCES "Educational_establishments"("id");
 ALTER TABLE "Candidates" ADD CONSTRAINT "Candidates_fk1" FOREIGN KEY ("district_id") REFERENCES "Districts"("id");
 ALTER TABLE "Candidates" ADD CONSTRAINT "Candidates_fk2" FOREIGN KEY ("parent_1_id") REFERENCES "Parents"("id");
@@ -254,16 +265,16 @@ ALTER TABLE "Educational_establishments" ADD CONSTRAINT "Educational_establishme
 
 
 
-ALTER TABLE "Interview" ADD CONSTRAINT "Interview_fk0" FOREIGN KEY ("candidate_id") REFERENCES "Candidates"("id");
-ALTER TABLE "Interview" ADD CONSTRAINT "Interview_fk1" FOREIGN KEY ("interviewer_id") REFERENCES "Mentors"("id");
-ALTER TABLE "Interview" ADD CONSTRAINT "Interview_fk2" FOREIGN KEY ("result_id") REFERENCES "Statuses"("id");
+ALTER TABLE "Interviews" ADD CONSTRAINT "Interviews_fk0" FOREIGN KEY ("candidate_id") REFERENCES "Candidates"("id");
+ALTER TABLE "Interviews" ADD CONSTRAINT "Interviews_fk1" FOREIGN KEY ("interviewer_id") REFERENCES "Mentors"("id");
+ALTER TABLE "Interviews" ADD CONSTRAINT "Interviews_fk2" FOREIGN KEY ("result_id") REFERENCES "Statuses"("id");
 
 ALTER TABLE "Mentors" ADD CONSTRAINT "Mentors_fk0" FOREIGN KEY ("education_id") REFERENCES "Educational_establishments"("id");
 
 ALTER TABLE "Statuses" ADD CONSTRAINT "Statuses_fk0" FOREIGN KEY ("group_id") REFERENCES "Status_groups"("id");
 
 ALTER TABLE "Students" ADD CONSTRAINT "Students_fk0" FOREIGN KEY ("candidate_id") REFERENCES "Candidates"("id");
-ALTER TABLE "Students" ADD CONSTRAINT "Students_fk1" FOREIGN KEY ("interview_id") REFERENCES "Interview"("id");
+ALTER TABLE "Students" ADD CONSTRAINT "Students_fk1" FOREIGN KEY ("interview_id") REFERENCES "Interviews"("id");
 ALTER TABLE "Students" ADD CONSTRAINT "Students_fk2" FOREIGN KEY ("group_id") REFERENCES "Study_groups"("id");
 ALTER TABLE "Students" ADD CONSTRAINT "Students_fk3" FOREIGN KEY ("education_status_id") REFERENCES "Statuses"("id");
 
@@ -280,6 +291,10 @@ ALTER TABLE "Lessons" ADD CONSTRAINT "Lessons_fk1" FOREIGN KEY ("room_id") REFER
 ALTER TABLE "Lessons" ADD CONSTRAINT "Lessons_fk2" FOREIGN KEY ("mentor_id") REFERENCES "Mentors"("id");
 ALTER TABLE "Lessons" ADD CONSTRAINT "Lessons_fk3" FOREIGN KEY ("group_id") REFERENCES "Status_groups"("id");
 
+
+
+ALTER TABLE "Mentors_to_Programs" ADD CONSTRAINT "Mentors_to_Programs_fk0" FOREIGN KEY ("mentor_id") REFERENCES "Mentors"("id");
+ALTER TABLE "Mentors_to_Programs" ADD CONSTRAINT "Mentors_to_Programs_fk1" FOREIGN KEY ("program_id") REFERENCES "Programs"("id");
 
 
 

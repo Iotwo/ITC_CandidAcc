@@ -63,7 +63,7 @@ CREATE TABLE Districts (
 	name string
 );
 
-CREATE TABLE Interview (
+CREATE TABLE Interviews (
 	id integer PRIMARY KEY AUTOINCREMENT,
 	date datetime,
 	candidate_id integer,
@@ -83,8 +83,8 @@ CREATE TABLE Mentors (
 
 CREATE TABLE Statuses (
 	id integer PRIMARY KEY AUTOINCREMENT,
-	name string,
-	group_id integer
+	group_id integer,
+	name string
 );
 
 CREATE TABLE Students (
@@ -141,6 +141,13 @@ CREATE TABLE Days_of_week (
 	id integer PRIMARY KEY AUTOINCREMENT,
 	day_name string
 );
+
+CREATE TABLE Mentors_to_Programs (
+	id integer PRIMARY KEY AUTOINCREMENT,
+	mentor_id integer,
+	program_id integer
+);
+
 
 
 
